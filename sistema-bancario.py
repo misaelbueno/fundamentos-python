@@ -27,20 +27,36 @@ while True:
             elif not isinstance(valor, int) or valor < 0:
                 print("Valor Inválido!")
             else:
-                print(f"Depósito no valor de {valor:.2f} reais confirmado!")
                 extrato += f"Depósito: R${valor}.00\n"
                 depTotal += valor
+                saldo = depTotal - saqueTotal
+                print(f"Depósito no valor de R${valor:.2f} confirmado!")
                 resposta = input(f"Deseja fazer mais um depósito?[S/N]")
                 if resposta.upper() != "S":
                     break
 
     elif opcao == "1":
-        print("\nsaque")
+        while True:
+            saque = int(input("*Voltar ao menu inicial, digite 0\nValor do saque:\n"))
+            numero_saques += 1
+            if numero_saques > 3:
+                print('Valor ultrapassado de limite de saque diário! Tente novamente amanhã!')
+                break
+            elif saque > saldo:
+                print('Saldo Insuficiente!')
+            else:
+                extrato += f"Saque: R${saque}.00\n"
+                saqueTotal += saque
+                saldo = depTotal - saqueTotal
+                print(f"Saque no valor de R${saque:.2f} confirmado!")
+                resposta = input(f"Deseja fazer mais um saque?[S/N]")
+                if resposta.upper() != "S":
+                    break
 
     elif opcao == "2":
         print("EXTRATO")
         print(extrato)
-        print(f"Saldo: {depTotal - saqueTotal}")
+        print(f"Saldo: {saldo}")
 
     elif opcao == "3":
         break
