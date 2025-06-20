@@ -13,6 +13,7 @@ limite = 500
 extrato = ""
 numero_saques = 0
 LIMITE_SAQUE = 3
+depTotal, saqueTotal = 0, 0
 
 while True:
     opcao = input(menu)
@@ -27,7 +28,8 @@ while True:
                 print("Valor Inválido!")
             else:
                 print(f"Depósito no valor de {valor:.2f} reais confirmado!")
-                extrato += f"Depósito: {valor}\n"
+                extrato += f"Depósito: R${valor}.00\n"
+                depTotal += valor
                 resposta = input(f"Deseja fazer mais um depósito?[S/N]")
                 if resposta.upper() != "S":
                     break
@@ -38,6 +40,7 @@ while True:
     elif opcao == "2":
         print("EXTRATO")
         print(extrato)
+        print(f"Saldo: {depTotal - saqueTotal}")
 
     elif opcao == "3":
         break
