@@ -1,0 +1,2 @@
+
+    opcao = input(menu)
