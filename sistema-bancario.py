@@ -171,16 +171,3 @@ while True:
     else:
         print("Opção inválida! Por favor digite a operação desejada.")
 print('Saindo do Menu!')
-
-'''
-def main():
-    LIMITE_SAQUE = 3
-    AGENCIA = "0001"
-
-    saldo = 0
-    limite = 500
-    extrato = ""
-    numero_saques = 0
-    depTotal, saqueTotal = 0, 0
-
-'''
