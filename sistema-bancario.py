@@ -1,18 +1,24 @@
+LIMITE_SAQUE = 3
+AGENCIA = "0001"
+
 saldo = 0
 limite = 500
 extrato = ""
 numero_saques = 0
-LIMITE_SAQUE = 3
 usuarios = []
+contas = []
 
 
 def menu():
     menu = """
     === Menu ===
-    [0] Depositar
-    [1] Sacar
-    [2] Extrato
-    [3] Sair
+    [1] Depositar
+    [2] Sacar
+    [3] Extrato
+    [4] Criar Usuário
+    [5] Criar conta
+    [6] Listas contas
+    [7] Sair
 
     => """
     return menu
@@ -80,13 +86,60 @@ def exibir_extrato(saldo, /, *, extrato):
     print(f"Saldo: R${saldo:.2f}")
 
 
+def criar_usuario(ususarios):
+    cpf = input("Informe o CPF (somente números): ")
+    usuario = filtrar_usuarios(cpf, usuarios)
+
+    if usuario:
+        print("Já existe usuário com esse CPF!")
+        return
+
+    nome = input("Informe o nome completo: ")
+    data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
+    endereco = input(
+        "Informe o endereço (logradouro, nro - bairro - cidade/sigla estado): "
+    )
+
+    usuarios.append({
+        "nome": nome,
+        "data_nascimento": data_nascimento,
+        "cpf": cpf,
+        "endereco": endereco
+    })
+
+    print("Usuário criado com sucesso!")
+
+
+def filtrar_usuarios(cpf, usuarios):
+    usuarios_filtrados = [
+        usuario for usuario in usuarios
+        if usuario["cpf"] == cpf
+    ]
+    return usuarios_filtrados[0] if usuarios_filtrados else None
+
+
+def crair_conta(agencia, numero_conta, usuarios):
+    cpf = input("Informe o CPF (somente números): ")
+    usuario = filtrar_usuarios(cpf, usuarios)
+
+    if usuario:
+        print("Conta criada com sucesso!")
+        return {
+            "agencia": agencia,
+            "numero_conta": numero_conta,
+            "usuario": usuario
+        }
+
+    print("Usuário não encontrado! Criação de conta cancelada!")
+
+
 while True:
     opcao = input(menu())
 
-    if opcao == "0":
+    if opcao == "1":
         extrato, saldo = depositar(extrato, saldo)
 
-    elif opcao == "1":
+    elif opcao == "2":
         extrato, saldo = sacar(
             extrato=extrato,
             saldo=saldo,
@@ -94,9 +147,25 @@ while True:
             limite=limite,
             limite_saque=LIMITE_SAQUE
         )
-    elif opcao == "2":
-        exibir_extrato(saldo, extrato=extrato)
+
     elif opcao == "3":
+        exibir_extrato(saldo, extrato=extrato)
+
+    elif opcao == "4":
+        criar_usuario(usuarios)
+
+    elif opcao == "5":
+        numero_conta = len(contas) + 1
+        conta = crair_conta(AGENCIA, numero_conta, usuarios)
+
+        if conta:
+            contas.append(conta)
+
+    elif opcao == "6":
+        print('=== CONTAS ===')
+        print(contas)
+
+    elif opcao == "7":
         break
 
     else:
